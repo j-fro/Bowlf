@@ -1,10 +1,20 @@
+// @flow
 import React from 'react';
-import PlayersStore from '../stores/PlayersStore';
+import { StackNavigator } from 'react-navigation';
+import { Provider } from 'mobx-react';
+import { main } from '../config/routes';
+import GameStore from '../stores/GameStore';
 import PlayerEntry from './PlayerEntry';
-import Header from './Header';
+import ScoreKeeping from './ScoreKeeping';
 
-const store = new PlayersStore();
+const store = new GameStore();
 
-const Bowlf = () => <Header><PlayerEntry store={store} /></Header>;
+const Bowlf = () => {
+  const Nav = StackNavigator({
+    [main.playerEntry]: { screen: PlayerEntry },
+    [main.scoreKeeping]: { screen: ScoreKeeping },
+  });
+  return <Provider store={store}><Nav /></Provider>;
+};
 
 export default Bowlf;

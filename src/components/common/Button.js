@@ -1,3 +1,4 @@
+// @flow
 import React, { TouchableHighlightProperties } from 'react';
 import { View, TouchableHighlight } from 'react-native';
 

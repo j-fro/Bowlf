@@ -1,7 +1,8 @@
+// @flow
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { observer } from 'mobx-react';
-import { Player } from '../../stores/PlayersStore';
+import { Player } from '../../stores/GameStore';
 import { Button } from '../common';
 
 type Props = { player: Player, onPressRemove: () => void };
