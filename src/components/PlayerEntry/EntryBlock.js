@@ -1,12 +1,20 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Text } from 'react-native';
+import { observer } from 'mobx-react';
+import { Player } from '../../stores/PlayersStore';
+import { Button } from '../common';
 
-type Props = { name: string };
+type Props = { player: Player, onPressRemove: () => void };
 
-const EntryBlock = (props: Props) => (
+const EntryBlock = observer(({ player, onPressRemove }: Props) => (
   <View style={{ flex: 1, alignSelf: 'stretch' }}>
-    <TextInput style={{ height: 25, borderWidth: 1, alignSelf: 'stretch' }} value={props.name} />
+    <TextInput
+      style={{ height: 25, borderWidth: 1, alignSelf: 'stretch' }}
+      value={player.name}
+      onChangeText={text => player.changeName(text)}
+    />
+    <Button onPress={onPressRemove}><Text>X</Text></Button>
   </View>
-);
+));
 
 export default EntryBlock;

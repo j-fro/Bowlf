@@ -1,9 +1,10 @@
 import React from 'react';
+import PlayersStore from '../stores/PlayersStore';
 import PlayerEntry from './PlayerEntry';
 import Header from './Header';
 
-const players = [{ name: 'Jimmy' }];
+const store = new PlayersStore();
 
-const Bowlf = () => <Header><PlayerEntry players={players} /></Header>;
+const Bowlf = () => <Header><PlayerEntry store={store} /></Header>;
 
 export default Bowlf;

@@ -1,22 +1,25 @@
 import React from 'react';
 import { ScrollView, Text } from 'react-native';
+import { observer } from 'mobx-react';
+import PlayersStore from '../../stores/PlayersStore';
 import { Button } from '../common';
 import EntryBlock from './EntryBlock';
 
-type Player = {
-  name: string
-};
-
 type Props = {
-  players: Player[]
+  store: PlayersStore,
 };
 
-const PlayerEntry = (props: Props) => (
+const PlayerEntry = observer(({ store }: Props) => (
   <ScrollView style={{ flex: 1 }}>
-    {props.players.map(player => <EntryBlock key={player.name} name={player.name} />)}
-    <EntryBlock />
-    <Button><Text>+</Text></Button>
+    {store.players.map(player => (
+      <EntryBlock
+        key={player.id}
+        player={player}
+        onPressRemove={() => store.removePlayer(player.id)}
+      />
+    ))}
+    <Button onPress={() => store.addPlayer()}><Text>+</Text></Button>
   </ScrollView>
-);
+));
 
 export default PlayerEntry;
