@@ -16,28 +16,51 @@ export class Player {
 }
 
 export class Score {
-  @observable player: Player;
-  @observable score = 0;
+  @observable value: number = 0;
 }
 
 export class GameRound {
-  @observable scores: Score[] = [];
+  constructor(players: Player[]) {
+    players.forEach(player => {
+      this.scores[player.id] = new Score();
+    });
+
+    autorun(() => console.debug('Round:', this.scores));
+  }
+
+  @observable scores: { [string]: Score } = {};
+
+  @action addScore(player: Player, score: number) {
+    this.scores[player.id].value = score;
+  }
 }
 
 export default class GameStore {
   @observable players: Player[] = [new Player()];
   @observable rounds: GameRound[] = [];
+  @observable currentRound: GameRound;
+  @observable currentPlayerIndex = 0;
+  @computed get currentPlayer(): Player {
+    return this.players[this.currentPlayerIndex];
+  }
+  @computed get playerCount(): number {
+    return this.players.length;
+  }
 
   constructor() {
+    const Jimmy = new Player();
+    Jimmy.name = 'Jimmy';
+    const Amanda = new Player();
+    Amanda.name = 'Amanda';
+
+    this.players = [Jimmy, Amanda];
     autorun(() => {
       console.debug('==== Game Store ====');
       console.debug('Players:', this.players);
+      console.debug('Current round:', this.currentRound);
+      console.debug('Previous rounds:', this.rounds);
       console.debug('====================');
     });
-  }
-
-  @computed get playerCount(): number {
-    return this.players.length;
   }
 
   @action addPlayer() {
@@ -49,6 +72,22 @@ export default class GameStore {
   }
 
   @action startRound() {
-    this.rounds.push(new GameRound());
+    this.currentPlayerIndex = 0;
+    const round = new GameRound(this.players);
+    this.currentRound = round;
+    this.rounds.push(round);
+  }
+
+  @action addScore(player: Player, score: number) {
+    this.currentRound.addScore(player, score);
+    this.nextPlayer();
+  }
+
+  @action nextPlayer() {
+    if (this.currentPlayerIndex + 1 < this.playerCount) {
+      this.currentPlayerIndex += 1;
+    } else {
+      this.startRound();
+    }
   }
 }

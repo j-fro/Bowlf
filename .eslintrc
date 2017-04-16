@@ -3,6 +3,7 @@
     "parser": "babel-eslint",
     "rules": {
         "react/jsx-filename-extension": "off",
-        "no-console": "off"
+        "no-console": "off",
+        "arrow-parens": "off"
     }
 }

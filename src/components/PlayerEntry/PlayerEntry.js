@@ -19,6 +19,12 @@ class PlayerEntry extends Component<void, Props, void> {
     title: 'Player Info',
   };
 
+  onContinuePress = () => {
+    const { store, navigation } = this.props;
+    store.startRound();
+    navigation.navigate(main.scoreKeeping);
+  };
+
   render() {
     const { store, navigation } = this.props;
     return (
@@ -33,7 +39,7 @@ class PlayerEntry extends Component<void, Props, void> {
         ))}
 
         <Button onPress={() => store.addPlayer()}><Text>+</Text></Button>
-        <Button onPress={() => navigation.navigate(main.scoreKeeping)}>
+        <Button onPress={() => this.onContinuePress()}>
           <Text>Continue to Game</Text>
         </Button>
       </ScrollView>
