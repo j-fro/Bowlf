@@ -6,17 +6,18 @@ import { Player, Score } from '../../stores/GameStore';
 import ButtonBlock from './ButtonBlock';
 
 type Props = {
-  onScorePress: number => {},
+  onScorePress: (_: number) => {},
+  onGutterPress: (_: number) => {},
   player: Player,
   score: Score,
   selected: boolean,
 };
 
-const PlayerBlock = observer(({ player, onScorePress, score, selected }: Props) => (
+const PlayerBlock = observer(({ player, onScorePress, onGutterPress, score, selected }: Props) => (
   <View>
     <Text>{player.name}</Text>
     <Text>{score.value}</Text>
-    {selected && <ButtonBlock onScorePress={onScorePress} />}
+    {selected && <ButtonBlock onScorePress={onScorePress} onGutterPress={onGutterPress} />}
   </View>
 ));
 

@@ -1,9 +1,9 @@
 // @flow
-import uuid from 'uuid';
+import shortid from 'shortid';
 import { observable, action, autorun, computed } from 'mobx';
 
 export class Player {
-  @observable id = uuid();
+  @observable id = shortid.generate();
   @observable name = '';
 
   constructor() {
@@ -20,6 +20,9 @@ export class Score {
 }
 
 export class GameRound {
+  id = shortid.generate();
+  @observable scores: { [string]: Score } = {};
+
   constructor(players: Player[]) {
     players.forEach(player => {
       this.scores[player.id] = new Score();
@@ -28,10 +31,8 @@ export class GameRound {
     autorun(() => console.debug('Round:', this.scores));
   }
 
-  @observable scores: { [string]: Score } = {};
-
   @action addScore(player: Player, score: number) {
-    this.scores[player.id].value = score;
+    this.scores[player.id].value += score;
   }
 }
 
@@ -81,6 +82,10 @@ export default class GameStore {
   @action addScore(player: Player, score: number) {
     this.currentRound.addScore(player, score);
     this.nextPlayer();
+  }
+
+  @action addGutter(player: Player, score: number) {
+    this.currentRound.addScore(player, score);
   }
 
   @action nextPlayer() {

@@ -6,14 +6,15 @@ import ScoreButton from './ScoreButton';
 
 type Props = {
   onScorePress: (_: number) => {},
+  onGutterPress: (_: number) => {},
 };
 
-const ButtonBlock = ({ onScorePress }: Props) => (
+const ButtonBlock = ({ onScorePress, onGutterPress }: Props) => (
   <View>
     <View style={{ flexDirection: 'row' }}>
       <ScoreButton value={10} onScorePress={onScorePress} />
-      <Button><Text>1x Gutter</Text></Button>
-      <Button><Text>2x Gutter</Text></Button>
+      <Button onPress={() => onGutterPress(1)}><Text>1x Gutter</Text></Button>
+      <Button onPress={() => onScorePress(16)}><Text>2x Gutter</Text></Button>
     </View>
     <View style={{ flexDirection: 'row' }}>
       <ScoreButton value={7} onScorePress={onScorePress} />

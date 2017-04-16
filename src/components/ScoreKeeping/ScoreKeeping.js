@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react';
 import GameStore, { Player } from '../../stores/GameStore';
 import { Button } from '../common';
 import PlayerBlock from './PlayerBlock';
+import TotalScoreBoard from './TotalScoreBoard';
 
 type Props = {
   store: GameStore,
@@ -15,7 +16,10 @@ type Props = {
 @observer
 export default class ScoreKeeping extends Component {
   static navigationOptions = {
-    title: 'Bowlf',
+    header: {
+      title: 'Bowlf',
+      left: null,
+    },
   };
 
   props: Props;
@@ -28,6 +32,10 @@ export default class ScoreKeeping extends Component {
     this.props.store.addScore(player, value);
   };
 
+  handleGutterPress = (player: Player) => (value: number) => {
+    this.props.store.addGutter(player, value * 8);
+  };
+
   render() {
     const { store, navigation } = this.props;
     return (
@@ -37,10 +45,12 @@ export default class ScoreKeeping extends Component {
             key={player.id}
             player={player}
             onScorePress={this.handleScorePress(player)}
+            onGutterPress={this.handleGutterPress(player)}
             score={store.currentRound.scores[player.id]}
             selected={store.currentPlayer.id === player.id}
           />
         ))}
+        <TotalScoreBoard rounds={store.rounds} players={store.players} />
         <Button onPress={() => this.handleNextRoundPress()}><Text>Next Round</Text></Button>
         <Button onPress={() => navigation.goBack()}><Text>Back to Players</Text></Button>
       </View>
