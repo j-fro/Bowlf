@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Button } from '../common';
+import { Button } from '../../common';
 
 type Props = {
   value: number,

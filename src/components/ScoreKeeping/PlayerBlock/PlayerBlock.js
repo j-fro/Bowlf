@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { observer } from 'mobx-react';
-import { Player, Score } from '../../stores/GameStore';
+import { Player, Score } from '../../../stores/GameStore';
 import ButtonBlock from './ButtonBlock';
 
 type Props = {
